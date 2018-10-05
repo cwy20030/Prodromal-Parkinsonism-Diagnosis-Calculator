@@ -1,0 +1,326 @@
+<html>
+Prodromal Risk for Parkinison 
+
+<head>
+<script>
+function select_YN(){
+   agePro = document.getElementById("age").value;
+	document.getElementById("PriorProb").value = (agePro/(1-agePro));
+   
+if(agePro == 0.004){
+	var ageLR = 1000}
+    else if (agePro == 0.0075){
+	var ageLR = 515}
+	else if ( agePro == 0.0125){
+	var ageLR = 300}
+	else if (agePro == 0.02){
+	var ageLR = 180}
+	else if (agePro == 0.025){
+	var ageLR = 155}
+	else if (agePro == 0.035){
+	var ageLR = 110}
+	else if (agePro == 0.04){
+	var ageLR = 95
+	}
+    
+	sexLR = document.getElementById("sex").value;
+	PesticideLR = document.getElementById("Pesticide").value;
+	OccupationLR = document.getElementById("Occupation").value;
+	CaffeineLR = document.getElementById("Caffeine").value;
+	SmokingLR = document.getElementById("Smoking").value;
+	SiblingLR = document.getElementById("Sibling").value;
+	RelativeLR = document.getElementById("Relative").value;
+	GeneLR = document.getElementById("Gene").value;
+	HyperSNLR = document.getElementById("HyperSN").value;
+	PSGLR = document.getElementById("PSG").value;
+	RBD_QLR = document.getElementById("RBD_Q").value;
+	DaTLR = document.getElementById("DaT").value;
+	UPDRS_IIILR = document.getElementById("UPDRS_III").value;
+	BradykinesiaLR = document.getElementById("Bradykinesia").value;
+	HyposmiaLR = document.getElementById("Hyposmia").value;
+	ConstipationLR = document.getElementById("Constipation").value;
+	SomnolenceLR = document.getElementById("Somnolence").value;
+	HypotensionLR = document.getElementById("Hypotension").value;
+	EDLR = document.getElementById("ED").value;
+	UrinationLR = document.getElementById("Urination").value;
+	DepressionLR = document.getElementById("Depression").value;
+    HeriatageLR = Math.max(SiblingLR, RelativeLR,GeneLR);
+    Motor_RiskLR = Math.max(UPDRS_IIILR, BradykinesiaLR);
+    RSWALRm = Math.max(RBD_QLR, PSGLR);
+    Preodds = document.getElementById("PriorProb").value;
+	Final_LR = sexLR*PesticideLR*OccupationLR*CaffeineLR*SmokingLR*HeriatageLR*HyperSNLR*RSWALRm*DaTLR*Motor_RiskLR*HyposmiaLR*ConstipationLR*SomnolenceLR*HypotensionLR*EDLR*UrinationLR*DepressionLR;
+	Postodds = Preodds*Final_LR;
+    
+<!-- DIfferent Results --> 
+    
+switch(true){
+	case UPDRS_IIILR !==1 && BradykinesiaLR !==1 && UPDRS_IIILR < 1.1 && BradykinesiaLR < 1.1:
+	var Motor_RiskLR = Math.min(UPDRS_IIILR, BradykinesiaLR);
+	}
+    
+switch(true){
+	case PSGLR !== 1 && RBD_QLR !== 1 && PSGLR < 1.1 && RBD_QLR <1.1:
+	var RSWALRm = Math.min(RBD_QLR, PSGLR);
+	}
+
+
+	document.getElementById("RiskMarker").value = sexLR*PesticideLR*OccupationLR*CaffeineLR*SmokingLR*HeriatageLR*HyperSNLR
+	document.getElementById("ProdromalMarker").value = RSWALRm*DaTLR*Motor_RiskLR*HyposmiaLR*ConstipationLR*SomnolenceLR*HypotensionLR*EDLR*UrinationLR*DepressionLR
+    document.getElementById("PLR").value = ageLR
+    document.getElementById("result0").value = sexLR*PesticideLR*OccupationLR*CaffeineLR*SmokingLR*HeriatageLR*HyperSNLR*RSWALRm*DaTLR*Motor_RiskLR*HyposmiaLR*ConstipationLR*SomnolenceLR*HypotensionLR*EDLR*UrinationLR*DepressionLR;
+	document.getElementById("PostProb").value = (Postodds/(1+Postodds));
+
+if(ageLR > Final_LR){
+	document.getElementById("PPPD").value = "No";}
+    else if(ageLR == Final_LR){
+	document.getElementById("PPPD").value = "Boarderline";}
+	else if(ageLR < Final_LR){
+	document.getElementById("PPPD").value = "Yes";}
+    
+}
+
+</script>
+<!-- I have not yet incoporate gene LR. I am waiting for Ron's information  -->
+<!-- we need to some priority check! for instance PSG > screening-->
+</head>
+
+<body>
+<form>
+</br>
+</br>
+
+Prior Probability: <input type="text" Class="textfield"  id="PriorProb"/>
+(Auto-output Field)
+</br>
+Age:
+<select id = "age" onchange="select_YN()"> 
+		<option value="">  </option>
+		<option value="0.004"> 50-54</option>
+		<option value="0.0075"> 55-59</option>
+		<option value="0.0125"> 60-64</option>
+		<option value="0.02"> 65-69</option>
+		<option value="0.025"> 70-74</option>
+		<option value="0.035"> 75-79</option>		
+		<option value="0.04"> > 79 </option>
+	</select>
+</br>
+-----------------------------------------------------------------------------------------------------------------------------------
+</br>
+</br>
+Risk Markers: <input type="text" Class="textfield"  id="RiskMarker"/> 
+</br>
+Sex:
+	<select id = "sex" onchange="select_YN()"> 
+		<option value="1">  </option>
+		<option value="1.2"> Male</option>
+		<option value="0.8"> Female </option>
+	</select>
+</br>
+Regular Pesticide Exposure:
+	<select id="Pesticide" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="1.5"> Yes </option>
+		<option value="1"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Occupational Solvent Exposure:
+	<select id="Occupation" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="1.5"> Yes </option>
+		<option value="1"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Consume Caffeinated Bevarage:
+	<select id="Caffeine" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="0.88"> Yes </option>
+		<option value="1.35"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Smoking:
+	<select id="Smoking" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="1.25"> Never </option>
+		<option value="0.8"> Former </option>
+		<option value="0.45"> Current </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Sibling(s) with PD (age of onset below 50 years old):
+	<select id="Sibling" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="7.5"> Yes </option>
+		<option value="1"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Any Other First Degree Relative with PD?
+	<select id="Relative" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="2.5"> Yes </option>
+		<option value="1"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Any Known Gene Mutation?
+	<style>
+	i {
+	font-style: italic;
+	}
+	sup {
+	vertical-align: super;
+    font-size: smaller;
+	}
+	</style>
+	<select id="Gene" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="400"> <i>SNCA p.A53T</i> (PARK1) </option>
+        <option value="33"> <i>SNCAdup</i> (PARK4) </option>
+        <option value="400"> <i>SNCAtri </i> (PARK4)</option>
+        <option value="400"> <i>Parkin<sup>mut/mut</sup></i> (PARK2) </option>
+        <option value="400"> <i>PINK1<sup>mut/mut</sup></i> (PARK6) </option>
+        <option value="25"> <i>LRRK2 p.G2019S</i> (PARK8) </option>
+        <option value="10"> <i>LRRK2 [p.Arg1441CGH (+) Tyr1699C (+) Iso2020T]</i> (PARK8) </option>
+        <option value="2"> <i>GBA [p.Gln370S (+) Ser271?]</i>  </option>
+        <option value="10"> <i>GBAmut</i>  </option>
+		<option value="1"> No </option>
+		<option value=1> Not Available </option>
+
+	</select>	
+
+</br>
+Documented Substantia Nigra Hyperechogenicity on Transcranial Ultrasound
+	<select id="HyperSN" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="4.7"> Yes </option>
+		<option value="0.45"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+</br>	
+-----------------------------------------------------------------------------------------------------------------------------------
+</br>
+</form>
+<form>
+Prodromal Markers: <input type="text" Class="textfield"  id="ProdromalMarker"/>
+(Auto-output Field)
+</br>
+Polysomnograph-proven RBD:
+	<select id="PSG" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="130"> Yes </option>
+		<option value="0.62"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Screened Positive for RBD onn Questionnaire (>80% Specificity):
+	<select id="RBD_Q" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="2.3"> Screened Positive </option>
+		<option value="0.76"> Screened Negative </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Clear Abnormality on Dopaminergic Imaging:
+	<select id="DaT" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="40"> Yes </option>
+		<option value="0.65"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+(e.g., < 65% normal, 2 SDs below mean) 
+</br>
+UPDRS III Total Score > 3:
+	<select id="UPDRS_III" onchange="select_YN()">
+	<option value="1">  </option>
+		<option value="10"> Yes </option>
+		<option value="0.7"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+(excluding action tremor)
+</br>
+Abnormal Quantitative Motor Testing:
+	<select id="Bradykinesia" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="3.5"> Yes </option>
+		<option value="0.6"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+(excluding action tremor)
+</br>
+Hyposmia:
+	<select id="Hyposmia" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="4"> Yes </option>
+		<option value="0.43"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Constipation:
+	<select id="Constipation" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="2.2"> Yes </option>
+		<option value="0.8"> No </option>		
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Excessive Daytime Somnolence:
+	<select id="Somnolence" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="2.2"> Yes </option>
+		<option value="0.88"> No </option>		
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Orthostatic Hypotension:
+	<select id="Hypotension" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="2.1"> Yes </option>
+		<option value="0.87"> No </option>
+		<option value="1"> Not Available </option>
+	</select>	
+</br>
+Severe Erectile Dysfunction:
+	<select id="ED" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="2.0"> Yes </option>
+		<option value="0.9"> No </option>		
+		<option value="1"> Not Available </option>
+		<option value="1"> Female Patient </option>
+	</select>
+</br>
+Urinary Dysfunction:
+	<select id="Urination" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="1.9"> Yes </option>
+		<option value="0.9"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</br>
+Depression and/or Anxiety:
+	<select id="Depression" onchange="select_YN()">
+		<option value="1">  </option>
+		<option value="1.8"> Yes </option>
+		<option value="0.85"> No </option>
+		<option value="1"> Not Available </option>
+	</select>
+</form>
+-----------------------------------------------------------------------------------------------------------------------------------
+<p> 
+Total LR Threshold Requied for Probable Prodromal PD:  <input type="text" Class="textfield"  id="PLR"/>
+</br>
+Total Estimated LR: <input type="text" Class="textfield"  id="result0"/>
+</br>
+Estimated Probability (%): <input type="text" Class="textfield" name="" id="PostProb"/>
+</br>
+Probable Prodromal PD:  <input type="text" Class="textfield"  id="PPPD"/>
+
+</p> 
+</br>
+Reference:
+
+</body>
+</html>
